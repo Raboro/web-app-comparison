@@ -1,0 +1,10 @@
+{
+  "name": "rust-rocket",
+  "scripts": {
+    "css": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/tailwind.min.css",
+    "css:watch": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/tailwind.min.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  }
+}
