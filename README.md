@@ -10,7 +10,8 @@ TODO web app in multiple languages to compare the different approaches and stack
 ## Tech Stacks 
 
 ### Rust 
-- Rocket
+- Rocket (Web Framework)
+- Askama (Templating Engine)
 - HTMX
 - TailwindCSS
 
