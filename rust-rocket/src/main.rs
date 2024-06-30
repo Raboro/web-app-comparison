@@ -1,9 +1,15 @@
 #[macro_use]
 extern crate rocket;
 
+use askama::Template;
+
+#[derive(Template)]
+#[template(path = "index.html")]
+struct IndexTemplate;
+
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+fn index() -> IndexTemplate {
+    IndexTemplate {}
 }
 
 #[launch]
