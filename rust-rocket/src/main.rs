@@ -2,6 +2,7 @@
 extern crate rocket;
 
 use askama::Template;
+use rocket::fs::FileServer;
 
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -14,5 +15,7 @@ fn index() -> IndexTemplate {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    rocket::build()
+        .mount("/", routes![index])
+        .mount("/static", FileServer::from("static"))
 }
