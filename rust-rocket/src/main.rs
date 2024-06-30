@@ -1,16 +1,12 @@
 #[macro_use]
 extern crate rocket;
-
-use askama::Template;
 use rocket::fs::FileServer;
 
-#[derive(Template)]
-#[template(path = "index.html")]
-struct IndexTemplate;
+mod templates;
 
 #[get("/")]
-fn index() -> IndexTemplate {
-    IndexTemplate {}
+fn index() -> templates::IndexTemplate {
+    templates::IndexTemplate {}
 }
 
 #[launch]
