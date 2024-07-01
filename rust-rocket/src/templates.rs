@@ -7,5 +7,5 @@ pub struct IndexTemplate;
 #[derive(Template)]
 #[template(path = "todos.html")]
 pub struct TodosTemplate<'a> {
-    pub todos: &'a Vec<String>
+    pub todos: &'a Vec<String>,
 }
