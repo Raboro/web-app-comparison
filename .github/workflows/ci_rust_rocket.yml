@@ -27,7 +27,7 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          git commit -am "formatted & clippy" || true
+          git commit -am "refactor(GHActionbot): :art: formatted & clippy" || true
 
       - name: Push changes
         uses: ad-m/github-push-action@master
