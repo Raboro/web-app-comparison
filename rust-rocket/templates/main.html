@@ -13,7 +13,14 @@
                     Add new TODO
                 </button>
             </div>
-            <div hx-get="/todos" hx-trigger="load"></div>
         </form>
+        <div 
+            hx-get="/todos" 
+            hx-trigger="load" 
+            hx-target="#todoContainer" 
+            class="bg-gray-100 m-3 py-3 flex items-center justify-center"
+        >
+            <div id="todoContainer" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md grid"></div>
+        </div>
     </div>
 </main>

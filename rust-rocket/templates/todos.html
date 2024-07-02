@@ -1,3 +1,8 @@
-{% for todo in todos %}
-<h3>{{ todo }}</h3>
-{% endfor %}
+<ul id="taskList" class="list-disc">
+    {% for todo in todos %}
+    <li class="mb-3 flex p-5 bg-slate-200 items-center justify-between rounded-lg shadow-lg w-full max-w-md h-10">
+        <span class="flex-1">{{ todo }}</span>
+        <button class="flex-2 ml-4 text-red-500 hover:text-red-700">Löschen</button>
+    </li>
+    {% endfor %}
+</ul>
