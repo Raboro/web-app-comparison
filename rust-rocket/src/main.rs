@@ -13,7 +13,7 @@ struct Todos {
 #[derive(FromForm)]
 struct TodoForm<'a> {
     #[field(validate = len(1..))]
-    todo: &'a str
+    todo: &'a str,
 }
 
 #[get("/")]
@@ -30,11 +30,11 @@ fn get_todos(todos: &State<Todos>) -> templates::TodosTemplate {
 }
 
 #[post("/todo", data = "<todo_form>")]
-fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::TodosTemplate{
+fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::TodosTemplate {
     let mut todos_guard = todos.todos.write().unwrap();
     todos_guard.push(todo_form.todo.to_string());
     templates::TodosTemplate {
-        todos: todos_guard.clone()
+        todos: todos_guard.clone(),
     }
 }
 
