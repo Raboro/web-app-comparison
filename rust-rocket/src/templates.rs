@@ -1,5 +1,7 @@
 use askama::Template;
 
+use crate::Todo;
+
 #[derive(Template)]
 #[template(path = "index.html")]
 pub struct IndexTemplate;
@@ -7,5 +9,5 @@ pub struct IndexTemplate;
 #[derive(Template)]
 #[template(path = "todos.html")]
 pub struct TodosTemplate {
-    pub todos: Vec<String>,
+    pub todos: Vec<Todo>,
 }

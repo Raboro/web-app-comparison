@@ -1,13 +1,33 @@
 #[macro_use]
 extern crate rocket;
+use core::fmt;
 use std::sync::RwLock;
 
 use rocket::{form::Form, fs::FileServer, State};
+use uuid::Uuid;
 
 mod templates;
 
 struct Todos {
-    todos: RwLock<Vec<String>>,
+    todos: RwLock<Vec<Todo>>,
+}
+
+#[derive(Clone)]
+struct Todo {
+    name: String,
+    id: Uuid
+}
+
+impl Todo {
+    fn new(name: String) -> Self {
+        Self { name, id: Uuid::new_v4() }
+    }
+}
+
+impl fmt::Display for Todo {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}, {}", self.name, self.id.to_string())
+    }
 }
 
 #[derive(FromForm)]
@@ -32,7 +52,7 @@ fn get_todos(todos: &State<Todos>) -> templates::TodosTemplate {
 #[post("/todo", data = "<todo_form>")]
 fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::TodosTemplate {
     let mut todos_guard = todos.todos.write().unwrap();
-    todos_guard.push(todo_form.todo.to_string());
+    todos_guard.push(Todo::new(todo_form.todo.to_string()));
     templates::TodosTemplate {
         todos: todos_guard.clone(),
     }
@@ -44,6 +64,6 @@ fn rocket() -> _ {
         .mount("/", routes![index, get_todos, post_todo])
         .mount("/static", FileServer::from("static"))
         .manage(Todos {
-            todos: RwLock::new(vec!["Shower".to_string(), "Exercise".to_string()]),
+            todos: RwLock::new(vec![Todo::new("Shower".to_string()), Todo::new("Exercise".to_string())]),
         })
 }
