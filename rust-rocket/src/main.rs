@@ -1,37 +1,13 @@
 #[macro_use]
 extern crate rocket;
-use core::fmt;
 use std::{str::FromStr, sync::RwLock};
 
+use models::{Todo, Todos};
 use rocket::{form::Form, fs::FileServer, State};
 use uuid::Uuid;
 
 mod templates;
-
-struct Todos {
-    todos: RwLock<Vec<Todo>>,
-}
-
-#[derive(Clone)]
-struct Todo {
-    name: String,
-    id: Uuid,
-}
-
-impl Todo {
-    fn new(name: String) -> Self {
-        Self {
-            name,
-            id: Uuid::new_v4(),
-        }
-    }
-}
-
-impl fmt::Display for Todo {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}, {}", self.name, self.id)
-    }
-}
+mod models;
 
 #[derive(FromForm)]
 struct TodoForm<'a> {
