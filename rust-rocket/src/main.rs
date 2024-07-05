@@ -52,11 +52,17 @@ fn delete_todo(id: &str, todos: &State<Todos>) -> templates::TodosTemplate {
     }
 }
 
+#[catch(404)]
+fn not_found() -> templates::NotFoundTemplate {
+    templates::NotFoundTemplate
+}
+
 #[launch]
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index, get_todos, post_todo, delete_todo])
         .mount("/static", FileServer::from("static"))
+        .register("/", catchers![not_found])
         .manage(Todos {
             todos: RwLock::new(vec![
                 Todo::new("Shower".to_string()),

@@ -11,3 +11,7 @@ pub struct IndexTemplate;
 pub struct TodosTemplate {
     pub todos: Vec<Todo>,
 }
+
+#[derive(Template)]
+#[template(path = "404.html")]
+pub struct NotFoundTemplate;
