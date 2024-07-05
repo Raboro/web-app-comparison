@@ -6,8 +6,8 @@ use models::{Todo, Todos};
 use rocket::{form::Form, fs::FileServer, State};
 use uuid::Uuid;
 
-mod templates;
 mod models;
+mod templates;
 
 #[derive(FromForm)]
 struct TodoForm<'a> {
