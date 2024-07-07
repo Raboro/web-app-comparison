@@ -1,56 +1,17 @@
 #[macro_use]
 extern crate rocket;
-use std::{str::FromStr, sync::RwLock};
+use std::sync::RwLock;
 
 use models::{Todo, Todos};
-use rocket::{form::Form, fs::FileServer, State};
-use uuid::Uuid;
+use resources::{
+    base::index,
+    todo::{delete_todo, post_todo}, todos::get_todos,
+};
+use rocket::fs::FileServer;
 
 mod models;
+mod resources;
 mod templates;
-
-#[derive(FromForm)]
-struct TodoForm<'a> {
-    #[field(validate = len(1..))]
-    todo: &'a str,
-}
-
-#[get("/")]
-fn index() -> templates::IndexTemplate {
-    templates::IndexTemplate {}
-}
-
-#[get("/todos")]
-fn get_todos(todos: &State<Todos>) -> templates::TodosTemplate {
-    let todos_guard = todos.todos.read().unwrap().to_vec();
-    templates::TodosTemplate {
-        todos: todos_guard.clone(),
-    }
-}
-
-#[post("/todo", data = "<todo_form>")]
-fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::TodosTemplate {
-    let mut todos_guard = todos.todos.write().unwrap();
-    todos_guard.push(Todo::new(todo_form.todo.to_string()));
-    templates::TodosTemplate {
-        todos: todos_guard.clone(),
-    }
-}
-
-#[delete("/todo/<id>")]
-fn delete_todo(id: &str, todos: &State<Todos>) -> templates::TodosTemplate {
-    let uuid = Uuid::from_str(id);
-    if uuid.is_err() {
-        return templates::TodosTemplate {
-            todos: todos.todos.write().unwrap().clone(),
-        };
-    }
-    let mut todos_guard = todos.todos.write().unwrap();
-    todos_guard.retain(|todo| todo.id != uuid.clone().unwrap());
-    templates::TodosTemplate {
-        todos: todos_guard.clone(),
-    }
-}
 
 #[catch(404)]
 fn not_found() -> templates::NotFoundTemplate {
@@ -60,7 +21,9 @@ fn not_found() -> templates::NotFoundTemplate {
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![index, get_todos, post_todo, delete_todo])
+        .mount("/", routes![index])
+        .mount("/todo", routes![post_todo, delete_todo])
+        .mount("/todos", routes![get_todos])
         .mount("/static", FileServer::from("static"))
         .register("/", catchers![not_found])
         .manage(Todos {
