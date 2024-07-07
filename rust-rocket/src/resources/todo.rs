@@ -12,6 +12,14 @@ pub struct TodoForm<'a> {
     todo: &'a str,
 }
 
+#[get("/")]
+pub fn get_all_todos(todos: &State<Todos>) -> templates::Todos {
+    let todos_guard = todos.todos.read().unwrap().to_vec();
+    templates::Todos {
+        todos: todos_guard.clone(),
+    }
+}
+
 #[post("/", data = "<todo_form>")]
 pub fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::Todos {
     let mut todos_guard = todos.todos.write().unwrap();

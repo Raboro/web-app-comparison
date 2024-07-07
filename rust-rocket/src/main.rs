@@ -5,7 +5,7 @@ use std::sync::RwLock;
 use models::{Todo, Todos};
 use resources::{
     base::index,
-    todo::{delete_todo, post_todo}, todos::get_todos,
+    todo::{delete_todo, post_todo, get_all_todos},
 };
 use rocket::fs::FileServer;
 
@@ -22,8 +22,7 @@ fn not_found() -> templates::NotFound {
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index])
-        .mount("/todo", routes![post_todo, delete_todo])
-        .mount("/todos", routes![get_todos])
+        .mount("/todo", routes![post_todo, delete_todo, get_all_todos])
         .mount("/static", FileServer::from("static"))
         .register("/", catchers![not_found])
         .manage(Todos {
