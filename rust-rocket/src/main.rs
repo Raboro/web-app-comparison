@@ -4,19 +4,14 @@ use std::sync::RwLock;
 
 use models::{Todo, Todos};
 use resources::{
-    base::index,
-    todo::{delete_todo, post_todo, get_all_todos},
+    base::{index, not_found},
+    todo::{delete_todo, get_all_todos, post_todo},
 };
 use rocket::fs::FileServer;
 
 mod models;
 mod resources;
 mod templates;
-
-#[catch(404)]
-fn not_found() -> templates::NotFound {
-    templates::NotFound
-}
 
 #[launch]
 fn rocket() -> _ {
