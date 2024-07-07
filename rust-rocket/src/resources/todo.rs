@@ -43,3 +43,33 @@ pub fn delete_todo(id: &str, todos: &State<Todos>) -> templates::Todos {
         todos: todos_guard.clone(),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::sync::RwLock;
+
+    use rocket::{http::Status, local::blocking::Client};
+
+    use crate::models::Todos;
+
+    use super::{delete_todo, get_all_todos, post_todo};
+
+    fn rocket() -> rocket::Rocket<rocket::Build> {
+        rocket::build()
+            .manage(Todos {
+                todos: RwLock::new(Vec::new()),
+            })
+            .mount("/", routes![get_all_todos, post_todo, delete_todo])
+    }
+
+    #[test]
+    fn get_todos_should_get_all_todos() {
+        let client = Client::tracked(rocket()).unwrap();
+        let response = client.get(uri!(super::get_all_todos)).dispatch();
+        assert_eq!(response.status(), Status::Ok);
+        assert_eq!(
+            response.into_string().unwrap(),
+            "<ul id=\"taskList\" class=\"list-disc\">\n    \n</ul>"
+        );
+    }
+}
