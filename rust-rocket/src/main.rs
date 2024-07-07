@@ -14,8 +14,8 @@ mod resources;
 mod templates;
 
 #[catch(404)]
-fn not_found() -> templates::NotFoundTemplate {
-    templates::NotFoundTemplate
+fn not_found() -> templates::NotFound {
+    templates::NotFound
 }
 
 #[launch]

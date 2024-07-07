@@ -4,14 +4,14 @@ use crate::Todo;
 
 #[derive(Template)]
 #[template(path = "index.html")]
-pub struct IndexTemplate;
+pub struct Index;
 
 #[derive(Template)]
 #[template(path = "todos.html")]
-pub struct TodosTemplate {
+pub struct Todos {
     pub todos: Vec<Todo>,
 }
 
 #[derive(Template)]
 #[template(path = "404.html")]
-pub struct NotFoundTemplate;
+pub struct NotFound;

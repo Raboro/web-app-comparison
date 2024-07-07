@@ -13,25 +13,25 @@ pub struct TodoForm<'a> {
 }
 
 #[post("/", data = "<todo_form>")]
-pub fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::TodosTemplate {
+pub fn post_todo(todo_form: Form<TodoForm<'_>>, todos: &State<Todos>) -> templates::Todos {
     let mut todos_guard = todos.todos.write().unwrap();
     todos_guard.push(Todo::new(todo_form.todo.to_string()));
-    templates::TodosTemplate {
+    templates::Todos {
         todos: todos_guard.clone(),
     }
 }
 
 #[delete("/<id>")]
-pub fn delete_todo(id: &str, todos: &State<Todos>) -> templates::TodosTemplate {
+pub fn delete_todo(id: &str, todos: &State<Todos>) -> templates::Todos {
     let uuid = Uuid::from_str(id);
     if uuid.is_err() {
-        return templates::TodosTemplate {
+        return templates::Todos {
             todos: todos.todos.write().unwrap().clone(),
         };
     }
     let mut todos_guard = todos.todos.write().unwrap();
     todos_guard.retain(|todo| todo.id != uuid.clone().unwrap());
-    templates::TodosTemplate {
+    templates::Todos {
         todos: todos_guard.clone(),
     }
 }
