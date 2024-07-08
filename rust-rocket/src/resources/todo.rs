@@ -72,4 +72,37 @@ mod tests {
             "<ul id=\"taskList\" class=\"list-disc\">\n    \n</ul>"
         );
     }
+
+    #[test]
+    fn test_post_todo() {
+        let client = Client::tracked(rocket()).unwrap();
+        let response = client.post("/")
+            .header(rocket::http::ContentType::Form)
+            .body("todo=Test%20Todo")
+            .dispatch();
+        assert_eq!(response.status(), Status::Ok);
+        let body = response.into_string().unwrap();
+        assert!(body.contains("Test Todo"));
+    }
+
+    #[test]
+    fn test_delete_todo() {
+        let client = Client::tracked(rocket()).unwrap();
+        let response = client.post("/")
+            .header(rocket::http::ContentType::Form)
+            .body("todo=Test%20Todo")
+            .dispatch();
+        assert_eq!(response.status(), Status::Ok);
+        let body = response.into_string().unwrap();
+        println!("{}", body);
+
+        let start = body.find("hx-delete=\"/todo/").unwrap() + 17;
+        let end = start + 36;
+        let id = &body[start..end];
+
+        let response = client.delete(format!("/{}", id)).dispatch();
+        assert_eq!(response.status(), Status::Ok);
+        let body = response.into_string().unwrap();
+        assert!(!body.contains(id));
+    }
 }
