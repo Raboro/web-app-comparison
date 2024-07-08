@@ -74,7 +74,7 @@ mod tests {
     }
 
     #[test]
-    fn test_post_todo() {
+    fn post_todo_should_create_new_todo() {
         let client = Client::tracked(rocket()).unwrap();
         let response = client
             .post("/")
@@ -87,7 +87,7 @@ mod tests {
     }
 
     #[test]
-    fn test_delete_todo() {
+    fn delete_todo_should_delete_created_todo() {
         let client = Client::tracked(rocket()).unwrap();
         let response = client
             .post("/")
