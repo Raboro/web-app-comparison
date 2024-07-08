@@ -76,7 +76,8 @@ mod tests {
     #[test]
     fn test_post_todo() {
         let client = Client::tracked(rocket()).unwrap();
-        let response = client.post("/")
+        let response = client
+            .post("/")
             .header(rocket::http::ContentType::Form)
             .body("todo=Test%20Todo")
             .dispatch();
@@ -88,7 +89,8 @@ mod tests {
     #[test]
     fn test_delete_todo() {
         let client = Client::tracked(rocket()).unwrap();
-        let response = client.post("/")
+        let response = client
+            .post("/")
             .header(rocket::http::ContentType::Form)
             .body("todo=Test%20Todo")
             .dispatch();
