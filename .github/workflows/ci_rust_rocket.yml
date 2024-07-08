@@ -36,7 +36,7 @@ jobs:
           branch: ${{ github.ref }}
 
       - name: Build
-        run: cargo build
+        run: ./build.sh
 
       - name: Test
         run: cargo test
