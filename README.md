@@ -4,6 +4,7 @@ TODO web app in multiple languages to compare the different approaches and stack
 
 ## Languages
 - [x] Rust with Rocket
+- [ ] Rust with Dioxus
 - [] Go
 - [] Elixir
 
@@ -14,6 +15,9 @@ TODO web app in multiple languages to compare the different approaches and stack
 - Askama (Templating Engine)
 - HTMX
 - TailwindCSS
+
+### Rust with Dioxus
+- Dioxus
 
 ### Go 
 - HTMX 
