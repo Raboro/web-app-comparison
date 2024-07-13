@@ -11,6 +11,10 @@ jobs:
         working-directory: ./rust-dioxus-web
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install Dioxus CLI (dx)
+        run: cargo install dioxus-cli
+
       - name: Check
         run: cargo check && dx check
 
