@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./rust-dioxus
+        working-directory: ./rust-dioxus-web
     steps:
       - uses: actions/checkout@v3
       - name: Check
-        run: cargo check
+        run: cargo check && dx check
 
       - name: Clippy fix
         run: cargo clippy --fix
@@ -21,7 +21,7 @@ jobs:
         run: cargo clippy -- -D warnings
 
       - name: Format
-        run: cargo fmt
+        run: cargo fmt && dx fmt
 
       - name: Commit changes
         run: |
@@ -36,7 +36,7 @@ jobs:
           branch: ${{ github.ref }}
 
       - name: Build
-        run: cargo build
+        run: cargo build && dx build
 
       - name: Test
         run: cargo test
